@@ -1,12 +1,8 @@
 package com.banking.BankApplication.service;
 
-import com.banking.BankApplication.DAO.AccountsDao;
-import com.banking.BankApplication.DAO.UserDao;
-import com.banking.BankApplication.model.request.BankAccount;
-import com.banking.BankApplication.model.request.BankAccountInput;
-import com.banking.BankApplication.model.request.User;
+import com.banking.BankApplication.model.User;
+import com.banking.BankApplication.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,29 +10,32 @@ import java.util.Objects;
 
 @Service
 public class UserService {
-
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
-    public List<User> getUsers() {
-        return userDao.getUsers();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserByPhoneNumber(long phoneNumber) {
+        User userFromRepository = userRepository.findByPhoneNumber(phoneNumber);
+        if(Objects.nonNull(userFromRepository)) {
+//            System.out.println("Accounts for user: " + userFromRepository + " is " + userFromRepository.getBankAccounts().size());
+        }
+        return userFromRepository;
+    }
+    public User getUserByFirstNameLastName(String firstName , String lastName) {
+        User userFromRepository = userRepository.findByFirstNameAndLastName(firstName , lastName);
+        return userFromRepository;
     }
 
     public User createUser(User user) {
-        System.out.println("User Object received is: " + user);
-        userDao.save(user);
-        return user;
+        return userRepository.save(user);
     }
+
     public void deleteUser(long phoneNumber) {
-        userDao.delete(phoneNumber);
+        userRepository.deleteById(phoneNumber);
     }
-    public User getUserByPhoneNumber(long phoneNumber){
-        User user = userDao.getUserByPhoneNumber(phoneNumber);
-        return user;
-    }
-    public User getNameByAccountNumber(String accountNumber){
-        User userNameByAccNumber = userDao.getNameByAccountNumber(accountNumber);
-        return userNameByAccNumber;
-    }
+
 
 }

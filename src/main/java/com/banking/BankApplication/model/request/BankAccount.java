@@ -1,38 +1,37 @@
 package com.banking.BankApplication.model.request;
 
+import com.banking.BankApplication.model.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Component
 @Data
-//@Setter
-//@Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Entity
+@Table(schema = "bank", name = "BANK_ACCCOUNT")
 public class BankAccount {
+    @Id
+    @Column(name = "id")
     private String id;
-    private  String accountNumber;
+
+    @Column(name = "account_number")
+    private String accountNumber;
+
+    @Column(name = "balance")
     private float balance;
+
+    @Column(name = "owner")
     private String owner;
 
-    private long ownerPhoneNumber;
-
-    public BankAccount(){}
-
-    public BankAccount(String id, String accountNumber, float balance, String owner) {
-        this.id = id;
-        this.accountNumber = accountNumber;
-        this.balance = balance;
-        this.owner = owner;
-    }
-    public BankAccount(String accountNumber, float balance, String owner) {
-        this.id = UUID.randomUUID().toString();
-        this.accountNumber = accountNumber;
-        this.balance = balance;
-        this.owner = owner;
-    }
-
-
+    @ManyToOne
+    @JoinColumn(name="owner_phone_number")
+    @JsonIgnoreProperties("bankAccounts")
+    private User user;
 }

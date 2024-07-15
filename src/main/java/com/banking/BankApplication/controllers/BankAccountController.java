@@ -1,79 +1,56 @@
 package com.banking.BankApplication.controllers;
 
 import com.banking.BankApplication.model.request.BankAccount;
-import com.banking.BankApplication.model.request.BankAccountInput;
-import com.banking.BankApplication.model.request.User;
-import com.banking.BankApplication.service.AccountsService;
+import com.banking.BankApplication.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/accounts")
 public class BankAccountController {
 
     @Autowired
-    private AccountsService accountsService;
+    private BankAccountService bankAccountService;
 
-    @GetMapping(value = "/accounts")
-    public List<BankAccount> listAccounts(){
-        System.out.println("List of accounts");
-        return accountsService.getAccounts();
+    @GetMapping
+    public List<BankAccount> listAccounts() {
+        return bankAccountService.getAccounts();
     }
 
-//    @PostMapping(value = "/accounts")
-//    public BankAccount createBankAccount(@RequestBody BankAccountInput bankAccountInput){
-//        return accountsService.createAccount(bankAccountInput);
-//    }
-
-    @PostMapping(value = "/accounts")
-    public BankAccount createBankAccount(@RequestBody BankAccountInput bankAccountInput, @RequestParam String accountType) {
-        return accountsService.createAccount(bankAccountInput, accountType);
+    @PostMapping
+    public BankAccount createBankAccount(@RequestBody BankAccount bankAccount) {
+        return bankAccountService.createAccount(bankAccount);
     }
 
-    @GetMapping(value = "accounts/{id}")
-    public BankAccount getAccount(@PathVariable String id){
-        for (BankAccount account : accountsService.getAccounts()) {
-            if (account.getId().equals(id)) {
-                return account;
-            }
-        }
-        return null;
+    @GetMapping("/{id}")
+    public BankAccount getAccount(@PathVariable String id) {
+        return bankAccountService.getBankAccountById(id);
     }
 
-//    @PutMapping(value = "accounts/{id}")
-//    public BankAccount updateAccount(@PathVariable String id, @RequestBody BankAccountInput bankAccountInput){
-//        BankAccount bankAccount = accountsService.updateAccountInService(id ,bankAccountInput.getBalance(),bankAccountInput.getOwner());
-//        return bankAccount;
-//    }
-    @PutMapping(value = "accounts/{id}")
-    public BankAccount updateAccount(@PathVariable String id, @RequestBody BankAccountInput bankAccountInput, @RequestParam String accountType) {
-        return accountsService.updateAccountInService(id, bankAccountInput.getBalance(), bankAccountInput.getOwner(), accountType);
+    @PutMapping("/{id}")
+    public BankAccount updateAccount(@PathVariable String id, @RequestBody BankAccount bankAccountDetails) {
+        return bankAccountService.updateAccount(id, bankAccountDetails);
     }
 
-//    @DeleteMapping(value = "accounts/{id}")
-//    public void deleteAccount(@PathVariable String id){
-//        accountsService.deleteAccount(id);
-//    }
-    @DeleteMapping(value = "accounts/{id}")
-    public void deleteAccount(@PathVariable String id, @RequestParam String accountType) {
-        accountsService.deleteAccount(id, accountType);
-    }
-    @GetMapping(value ="/accounts/{firstName}/{lastName}")
-    public List<BankAccount> getAccountsDetails(@PathVariable String firstName,
-                                         @PathVariable String lastName){
-        List<BankAccount> bankAccounts = accountsService.getAccountsOnName(firstName,lastName);
-        return bankAccounts;
+    @DeleteMapping("/{id}")
+    public void deleteAccount(@PathVariable String id) {
+        bankAccountService.deleteAccount(id);
     }
 
-    @GetMapping(value ="/accounts/Details/{accountNumber}")
-    public List<BankAccount> getAccountDetailsByAccountNum(@PathVariable String accountNumber){
-        List<BankAccount> accountDetails = accountsService.getAccountDetailsByAccountNumber(accountNumber);
-        return accountDetails;
+    @GetMapping("/{firstName}/{lastName}")
+    public List<BankAccount> getAccountsDetails(@PathVariable String firstName, @PathVariable String lastName) {
+        return bankAccountService.getAccountsByOwnerName(firstName, lastName);
     }
 
+    @GetMapping("/details/{accountNumber}")
+    public BankAccount getAccountDetailsByAccountNum(@PathVariable String accountNumber) {
+        return bankAccountService.getAccountDetailsByAccountNumber(accountNumber);
+    }
 
-    // create a API that can find the owner First Name and Last Name based on the Account Number -- JDBC Template
-    // create a API that returns all the accounts corresponding to the owner of the given Account Number -- NamedJDBCTemplate
+    @GetMapping("/balance/{amount}")
+    public List<BankAccount> getAccountsByBalanceGreaterThan(@PathVariable float amount) {
+        return bankAccountService.getAccountsByBalanceGreaterThan(amount);
+    }
 }

@@ -1,27 +1,49 @@
-package com.banking.BankApplication.model.request;
+package com.banking.BankApplication.model;
 
+import com.banking.BankApplication.model.request.BankAccount;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.ToString;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Set;
 
 @Component
 @ToString
-@Table(schema="bank", value = "USER_DETAILS")
+@Entity
+@Table(schema="bank", name = "USER")
 public class User {
 
-    @Column("FIRST_NAME")
-    private String firstName;
-    private String lastName;
-    private int age;
-
+    @Id
+    @Column(name = "PHONE_NUMBER")
     private long phoneNumber;
+
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+
+    @Column(name = "LAST_NAME")
+    private String lastName;
+
+    private int age;
     private String address;
 
-    public User()
-    {
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    private Set<BankAccount> bankAccounts;
+
+    public Set<BankAccount> getBankAccounts() {
+        return bankAccounts;
     }
+
+    public void setBankAccounts(Set<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+
+    public User() {}
+
     public User(String firstName, String lastName, int age, long phoneNumber, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,46 +51,49 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.address = address;
     }
+
     public User(String firstName, String lastName, int age, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.address = address;
     }
+
+    // Getters and Setters
     public String getFirstName() {
         return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public long getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public void setAge(int age) {
         this.age = age;
     }
 
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public void setAddress(String address) {
