@@ -1,6 +1,9 @@
 package com.banking.BankApplication.service;
 
+
+
 import com.banking.BankApplication.model.request.BankAccount;
+import com.banking.BankApplication.exception.ExceptionManager;
 import com.banking.BankApplication.repository.BankAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +50,19 @@ public class BankAccountService {
     }
 
     public List<BankAccount> getAccountsByOwnerName(String firstName, String lastName) {
-        return bankAccountRepository.findByOwnerName(firstName, lastName);
+        List<BankAccount> bankAccounts = bankAccountRepository.findByOwnerName(firstName, lastName);
+        if (bankAccounts == null || bankAccounts.isEmpty()) {
+            throw new ExceptionManager.ResourceNotFoundException("No accounts found for the owner with the given first name: " + firstName + " and last name: " + lastName);
+        }
+        return bankAccounts;
     }
 
     public BankAccount getAccountDetailsByAccountNumber(String accountNumber) {
-        return bankAccountRepository.findByAccountNumber(accountNumber);
+        BankAccount bankAccount = bankAccountRepository.findByAccountNumber(accountNumber);
+        if (bankAccount == null) {
+            throw new ExceptionManager.InvalidInputException("No accounts found for the account Number: " + accountNumber );
+        }
+        return bankAccount;
     }
 
     public List<BankAccount> getAccountsByBalanceGreaterThan(float amount) {

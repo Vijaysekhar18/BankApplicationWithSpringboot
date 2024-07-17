@@ -15,6 +15,13 @@ public class UsersController {
     public User getUserDetails(@PathVariable long phoneNumber) {
         return userService.getUserByPhoneNumber(phoneNumber);
     }
+
+    /**
+     * Added Exception Handliong as well
+     * @param firstName
+     * @param lastName
+     * @return
+     */
     @GetMapping(value = "/user/{firstName}/{lastName}")
     public User getUserDetailsByNames(@PathVariable String firstName, @PathVariable String lastName) {
         return userService.getUserByFirstNameLastName(firstName, lastName);
@@ -54,6 +61,5 @@ public class UsersController {
         userService.deleteUser(phoneNumber);
         System.out.println("User with phone number " + phoneNumber + " deleted.");
     }
-
 
 }
