@@ -1,12 +1,16 @@
-package com.banking.BankApplication.controllers;
+package com.banking.application.controllers;
 
-import com.banking.BankApplication.model.User;
-import com.banking.BankApplication.service.UserService;
+import com.banking.application.model.User;
+import com.banking.application.service.UserService;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/users")
+@Validated
 public class UsersController {
     @Autowired
     private UserService userService;
@@ -23,7 +27,7 @@ public class UsersController {
      * @return
      */
     @GetMapping(value = "/user/{firstName}/{lastName}")
-    public User getUserDetailsByNames(@PathVariable String firstName, @PathVariable String lastName) {
+    public User getUserDetailsByNames(@PathVariable ("name") @NotBlank @Size(max = 10) String firstName, @PathVariable @NotBlank @Size(max = 10) String lastName) {
         return userService.getUserByFirstNameLastName(firstName, lastName);
     }
 

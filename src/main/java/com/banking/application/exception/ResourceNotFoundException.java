@@ -1,6 +1,4 @@
-package com.banking.BankApplication.exception;
-
-import org.springframework.validation.Errors;
+package com.banking.application.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

@@ -1,4 +1,4 @@
-package com.banking.BankApplication.config;
+package com.banking.application.config;
 
 import org.springframework.context.annotation.Configuration;
 

@@ -1,6 +1,6 @@
-package com.banking.BankApplication.repository;
+package com.banking.application.repository;
 
-import com.banking.BankApplication.model.User;
+import com.banking.application.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

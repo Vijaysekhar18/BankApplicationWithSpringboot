@@ -1,8 +1,8 @@
-package com.banking.BankApplication.service;
+package com.banking.application.service;
 
-import com.banking.BankApplication.exception.ResourceNotFoundException;
-import com.banking.BankApplication.model.User;
-import com.banking.BankApplication.repository.UserRepository;
+import com.banking.application.exception.ResourceNotFoundException;
+import com.banking.application.model.User;
+import com.banking.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Service;

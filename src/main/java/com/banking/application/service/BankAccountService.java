@@ -1,10 +1,10 @@
-package com.banking.BankApplication.service;
+package com.banking.application.service;
 
 
 
-import com.banking.BankApplication.model.request.BankAccount;
-import com.banking.BankApplication.exception.ExceptionManager;
-import com.banking.BankApplication.repository.BankAccountRepository;
+import com.banking.application.model.request.BankAccount;
+import com.banking.application.exception.ExceptionManager;
+import com.banking.application.repository.BankAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

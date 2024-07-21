@@ -1,14 +1,11 @@
-package com.banking.BankApplication.model;
+package com.banking.application.model;
 
-import com.banking.BankApplication.model.request.BankAccount;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.banking.application.model.request.BankAccount;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Set;
 
 @Component

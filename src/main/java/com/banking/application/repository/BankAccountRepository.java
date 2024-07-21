@@ -1,6 +1,6 @@
-package com.banking.BankApplication.repository;
+package com.banking.application.repository;
 
-import com.banking.BankApplication.model.request.BankAccount;
+import com.banking.application.model.request.BankAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
